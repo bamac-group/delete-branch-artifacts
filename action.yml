@@ -1,13 +1,15 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Delete branch artifacts'
+description: 'Deletes artifacts of all workflow runs on a branch'
+branding:
+  icon: trash
+  color: red
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  github-token:
+    description: Github token
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+  branch:
+    description: All workflow artifacts for uns on this branch will be deleted. If not defined, GITHUB_HEAD_REF will be used (only available for PR triggers).
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
