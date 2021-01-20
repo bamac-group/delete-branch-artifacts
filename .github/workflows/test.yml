@@ -1,25 +1,30 @@
-name: "units-test"
+name: "test"
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
 
 jobs:
-  # unit tests
+
+  harden_workflow_security:
+    name: Harden workflow security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # v2.3.4
+      - name: Ensure SHA pinned actions
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@e70e07ef05f0a3bf1483fde3c50eeab9c1805041 # v1.0.1
+
   units:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # v2.3.4
     - run: npm ci
     - run: npm test
 
-  # test action works running from the graph
-  test:
+  action:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # v2.3.4
     - uses: ./
       with:
-        milliseconds: 1000
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
