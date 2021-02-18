@@ -7,10 +7,31 @@
 This Action deletes all artifacts of workflow runs on a specific branch. For example it can be used to delete all artifacts that were created during a PR, after that PR was merged or closed.
 
 ## Inputs
-tbd
+
+##### `github-token` (**Required**)
+Github token used for deleting artifacts. To use the key provided by the GitHub
+action runner, use `${{ secrets.GITHUB_TOKEN }}`.
+
+##### `branch` (**Optional**)
+The branch on which all workflow run artifacts should be deleted. Only needed if you do not want to delete artifacts on ${GITHUB_HEAD_REF} for PRs.
+
 
 ## Example usage
-tbd
+### Delete artifacts of all workflow runs on the head branch of a PR when that PR is closed or merged.
+```yml
+name: PR closed
+ on: 
+   pull_request:
+     types: [closed]
+
+ jobs:
+   remove-artifacts:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: bamac-group/delete-branch-artifacts@0.1.0
+         with:
+           github-token: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ## Development
 
